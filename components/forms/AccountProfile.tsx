@@ -6,10 +6,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userValidation } from "@/lib/validations/user";
+import { UserValidation } from "@/lib/validations/user";
 import * as z from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -40,7 +41,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   const pathname = usePathname();
 
   const form = useForm({
-    resolver: zodResolver(userValidation),
+    resolver: zodResolver(UserValidation),
     defaultValues: {
       profile_photo: user?.image || "",
       name: user?.name || "",
@@ -72,7 +73,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     }
   };
 
-  const onSubmit = async (values: z.infer<typeof userValidation>) => {
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     const blob = values.profile_photo;
 
     const hasImageChanged = isBase64Image(blob);
@@ -141,6 +142,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   onChange={(e) => handleImage(e, field.onChange)}
                 />
               </FormControl>
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -160,6 +162,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -178,6 +181,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -196,6 +200,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage/>
             </FormItem>
           )}
         />
