@@ -34,6 +34,7 @@ const ThreadCard = ({
   community,
   createdAt,
   comments,
+  isComment,
 }: Props) => {
   return (
     <article className="flex w-full flex-col rounded-xl bg-dark-2 p-7">
@@ -42,61 +43,68 @@ const ThreadCard = ({
           <div className="flex flex-col items-center">
             <Link href={`/profile/${author.id}`} className="relative h-11 w-11">
               <Image
-              src={author.image}
-              alt= "Profile image"
-              className="cursor-pointer rounded-full"
-              width="300" height="200"
+                src={author.image}
+                alt="Profile image"
+                className="cursor-pointer rounded-full"
+                width="300"
+                height="200"
               />
             </Link>
-            <div  className="thread-card_bar"/>
+            <div className="thread-card_bar" />
           </div>
           <div className="flex w-full flex-col">
-          <Link href={`/profile/${author.id}`} className="w-fit">
-            <h4 className="cursor-pointer text-base-semibold text-light-1">
-              {author.name}
-            </h4>
-          </Link>
-          <p className="mt-2 text-small-regular text-light-1">{content}</p>
+            <Link href={`/profile/${author.id}`} className="w-fit">
+              <h4 className="cursor-pointer text-base-semibold text-light-1">
+                {author.name}
+              </h4>
+            </Link>
+            <p className="mt-2 text-small-regular text-light-1">{content}</p>
 
-          <div className="mt-5 flex flex-col gap-3">
-            <div className="flex gap-3.5">
-              <Image 
-              src="/assets/heart-gray.svg"
-              alt="Heart Icon"
-              width={24}
-              height={24}
-              className="cursor-pointer object-contain"
-              />
-              <Link href={`/thread/${id}`}>
-              <Image 
-              src="/assets/reply.svg"
-              alt="reply Icon"
-              width={24}
-              height={24}
-              className="cursor-pointer object-contain"
-              />
-              </Link>
+            <div className="mt-5 flex flex-col gap-3">
+              <div className="flex gap-3.5">
+                <Image
+                  src="/assets/heart-gray.svg"
+                  alt="Heart Icon"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer object-contain"
+                />
+                <Link href={`/thread/${id}`}>
+                  <Image
+                    src="/assets/reply.svg"
+                    alt="reply Icon"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Link>
 
-              <Image 
-              src="/assets/repost.svg"
-              alt="repost Icon"
-              width={24}
-              height={24}
-              className="cursor-pointer object-contain"
-              />
-              <Image 
-              src="/assets/share.svg"
-              alt="share Icon"
-              width={24}
-              height={24}
-              className="cursor-pointer object-contain"
-              />
+                <Image
+                  src="/assets/repost.svg"
+                  alt="repost Icon"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer object-contain"
+                />
+                <Image
+                  src="/assets/share.svg"
+                  alt="share Icon"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer object-contain"
+                />
+              </div>
+              {isComment && comments.length > 0 && (
+                <Link href={`/thread/${id}`}>
+                  <p className="mt-1 text-subtle-medium text-gray-1">
+                    {comments.length} replies
+                  </p>
+                </Link>
+              )}
             </div>
           </div>
-          </div>
         </div>
-        </div>
-  
+      </div>
     </article>
   );
 };

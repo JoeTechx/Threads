@@ -48,7 +48,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 
   // fetch the posts that have no parents (top-level threads...)
   const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
-    .sort({ createAt: "desc" })
+    .sort({ createdAt: "desc" })
     .skip(skipAmount)
     .limit(pageSize)
     .populate({ path: "author", model: User })
@@ -69,4 +69,42 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
     return { posts, isNext }
 
 
+}
+
+export async function fetchThreadById(id: string){
+  connectToDB();
+  try{
+    
+    // TODO: Populate Community
+const thread = await Thread.findById(id)
+.populate({
+  path: 'author',
+  model: User,
+  select: "_id id name image"
+}) 
+.populate({
+  path: 'children',
+  populate: [
+    {
+      path: 'author',
+      model: User,
+      select: "_id id parentId name image"
+
+    },
+    {
+      path: 'children',
+      model: Thread,
+      populate: {
+        path: 'author',
+        model: User,
+        select: "_id id parentId name image"
+      }
+    }
+  ]
+}). exec();
+
+return thread;
+  }catch(error: any){
+    throw new Error(`Error fetching thread: ${error.message}`)
+  }
 }
