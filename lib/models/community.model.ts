@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const communitySchema = new mongoose.Schema({
   id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   username: {

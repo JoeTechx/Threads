@@ -1,3 +1,4 @@
+import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -104,7 +105,7 @@ const ThreadCard = ({
             </div>
           </div>
         </div>
-
+      </div>
         {/* TODO: DeleteThead */}
         {/* TODO: Show comment logos */}
 
@@ -127,8 +128,6 @@ const ThreadCard = ({
           />
         </Link>
       )}
-
-      </div>
     </article>
   );
 };
