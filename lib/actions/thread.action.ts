@@ -242,3 +242,61 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
+
+export async function likeThread(userId: string, threadId: string, path: string) {
+  try {
+    connectToDB();
+
+    // Find the thread by ID
+
+    const thread = await Thread.findById(threadId);
+    if (!thread) {
+      throw new Error("Thread not found");
+    }
+
+    // Check if the user has already liked the thread
+    if (thread.likes.includes(userId)) {
+      throw new Error("User has already liked this thread");
+    }
+
+    // Add the user's ID to the likes array
+    thread.likes.push(userId);
+
+    // Save the updated thread
+    await thread.save();
+    revalidatePath(path);
+    return "Thread liked successfully";
+  } catch (error: any) {
+    throw new Error(`Failed to like thread: ${error.message}`);
+  }
+}
+
+export async function unlikeThread(userId: string, threadId: string, path: string) {
+  try {
+    connectToDB();
+
+    // Find the thread by ID
+    const thread = await Thread.findById(threadId);
+
+    if (!thread) {
+      throw new Error('Thread not found');
+    }
+
+    // Check if the user has liked the thread
+    if (!thread.likes.includes(userId)) {
+      throw new Error('User has not liked this thread');
+    }
+
+    // Remove the user's ID from the likes array
+    thread.likes = thread.likes.filter((likeId: { toString: () => string; }) => likeId.toString() !== userId);
+
+    // Save the updated thread
+    await thread.save();
+    
+    revalidatePath(path);
+
+    return 'Thread unliked successfully';
+  } catch (error: any) {
+    throw new Error(`Failed to unlike thread: ${error.message}`);
+  }
+}
