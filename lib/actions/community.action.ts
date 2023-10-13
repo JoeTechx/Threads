@@ -1,6 +1,7 @@
 "use server";
 
 import { FilterQuery, SortOrder } from "mongoose";
+
 import Community from "../models/community.model";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
@@ -72,9 +73,6 @@ export async function fetchCommunityDetails(id: string) {
 export async function fetchCommunityPosts(id: string) {
   try {
     connectToDB();
-    // console.log('id:', id);
-    // Convert the string ID to a Mongoose ObjectId
-    // const communityId = new mongoose.Types.ObjectId(id);
 
     const communityPosts = await Community.findById(id).populate({
       path: "threads",
